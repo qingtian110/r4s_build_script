@@ -223,13 +223,14 @@ git clone https://$github/sbwml/feeds_packages_net_curl feeds/packages/net/curl
 
 # Docker
 rm -rf feeds/luci/applications/luci-app-dockerman
-git clone https://$gitea/sbwml/luci-app-dockerman -b openwrt-23.05 feeds/luci/applications/luci-app-dockerman
+git clone https://$gitea/sbwml/luci-app-dockerman -b openwrt-24.10 feeds/luci/applications/luci-app-dockerman
 if [ "$version" = "dev" ] || [ "$version" = "rc2" ]; then
     rm -rf feeds/packages/utils/{docker,dockerd,containerd,runc}
     git clone https://$github/sbwml/packages_utils_docker feeds/packages/utils/docker
     git clone https://$github/sbwml/packages_utils_dockerd feeds/packages/utils/dockerd
     git clone https://$github/sbwml/packages_utils_containerd feeds/packages/utils/containerd
     git clone https://$github/sbwml/packages_utils_runc feeds/packages/utils/runc
+    sed -i '/cgroupfs-mount/d' feeds/packages/utils/dockerd/Config.in
 fi
 sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
 pushd feeds/packages
@@ -280,6 +281,7 @@ curl -s $mirror/openwrt/nginx/uci.conf.template > feeds/packages/net/nginx-util/
 # opkg
 mkdir -p package/system/opkg/patches
 curl -s $mirror/openwrt/patch/opkg/900-opkg-download-disable-hsts.patch > package/system/opkg/patches/900-opkg-download-disable-hsts.patch
+curl -s $mirror/openwrt/patch/opkg/901-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch > package/system/opkg/patches/901-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch
 
 # uwsgi - fix timeout
 sed -i '$a cgi-timeout = 600' feeds/packages/net/uwsgi/files-luci-support/luci-*.ini

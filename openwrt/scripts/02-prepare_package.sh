@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-# golang 1.23
+# golang 1.24
 rm -rf feeds/packages/lang/golang
-git clone https://$github/sbwml/packages_lang_golang -b 23.x feeds/packages/lang/golang
+git clone https://$github/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
 
 # node - prebuilt
 rm -rf feeds/packages/lang/node
@@ -57,6 +57,7 @@ curl -s $mirror/openwrt/patch/luci/applications/luci-app-frpc/001-luci-app-frpc-
 curl -s $mirror/openwrt/patch/luci/applications/luci-app-frpc/002-luci-app-frpc-add-enable-flag.patch | patch -p1
 
 # natmap
+sed -i 's/log_stdout:bool:1/log_stdout:bool:0/g;s/log_stderr:bool:1/log_stderr:bool:0/g' feeds/packages/net/natmap/files/natmap.init
 pushd feeds/luci
     curl -s $mirror/openwrt/patch/luci/applications/luci-app-natmap/0001-luci-app-natmap-add-default-STUN-server-lists.patch | patch -p1
 popd
@@ -82,6 +83,10 @@ sed -i 's/0666/0644/g;s/0777/0755/g' feeds/packages/net/samba4/files/samba.confi
 sed -i 's/0666/0644/g;s/0777/0755/g' feeds/packages/net/samba4/files/smb.conf.template
 # rk3568 bind cpus
 [ "$platform" = "rk3568" ] && sed -i 's#/usr/sbin/smbd -F#/usr/bin/taskset -c 1,0 /usr/sbin/smbd -F#' feeds/packages/net/samba4/files/samba.init
+
+# zerotier
+rm -rf feeds/packages/net/zerotier
+git clone https://$github/sbwml/feeds_packages_net_zerotier feeds/packages/net/zerotier
 
 # aria2 & ariaNG
 rm -rf feeds/packages/net/ariang
@@ -167,3 +172,7 @@ git clone https://$github/sbwml/package_kernel_tcp-brutal package/kernel/tcp-bru
 
 # watchcat - clean config
 true > feeds/packages/utils/watchcat/files/watchcat.config
+
+# libpcap
+rm -rf package/libs/libpcap
+git clone https://$github/sbwml/package_libs_libpcap package/libs/libpcap
