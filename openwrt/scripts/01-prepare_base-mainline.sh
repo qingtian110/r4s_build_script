@@ -124,6 +124,7 @@ pushd target/linux/generic/backport-6.12
     curl -Os $mirror/openwrt/patch/kernel-6.12/bbr3/010-bbr3-0017-net-tcp_bbr-v3-ensure-ECN-enabled-BBR-flows-set-ECT-.patch
     curl -Os $mirror/openwrt/patch/kernel-6.12/bbr3/010-bbr3-0018-tcp-export-TCPI_OPT_ECN_LOW-in-tcp_info-tcpi_options.patch
     curl -Os $mirror/openwrt/patch/kernel-6.12/bbr3/010-bbr3-0019-x86-cfi-bpf-Add-tso_segs-and-skb_marked_lost-to-bpf_.patch
+    curl -Os $mirror/openwrt/patch/kernel-6.12/bbr3/010-bbr3-0020-net-tcp_bbr-v3-silence-Wconstant-logical-operand.patch
 popd
 
 # LRNG - 6.12
@@ -186,13 +187,13 @@ curl -s $mirror/openwrt/patch/mt76/patches/102-fix-build-with-mac80211-6.14-back
 # wireless-regdb
 curl -s $mirror/openwrt/patch/openwrt-6.x/500-world-regd-5GHz.patch > package/firmware/wireless-regdb/patches/500-world-regd-5GHz.patch
 
-# mac80211 - 6.14
+# mac80211 - 6.15
 rm -rf package/kernel/mac80211
 git clone https://$github/sbwml/package_kernel_mac80211 package/kernel/mac80211 -b openwrt-24.10
 
 # ath10k-ct
 rm -rf package/kernel/ath10k-ct
-git clone https://$github/sbwml/package_kernel_ath10k-ct package/kernel/ath10k-ct -b v6.14
+git clone https://$github/sbwml/package_kernel_ath10k-ct package/kernel/ath10k-ct -b v6.15
 
 # kernel patch
 # btf: silence btf module warning messages
