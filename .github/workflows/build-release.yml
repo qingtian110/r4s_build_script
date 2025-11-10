@@ -195,9 +195,9 @@ jobs:
         mkdir -p rom info
         if [[ "${{ github.event.inputs.device }}" == nanopi-* ]]; then
           cp -a openwrt/bin/targets/rockchip/*/*.img.gz rom/
-          cp -a openwrt/bin/targets/rockchip/*/*.manifest info/manifest.txt
-          cp -a openwrt/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
-          cd rom && sha256sum *gz > ../info/sha256sums.txt
+          cp -a openwrt/bin/targets/rockchip/*/*.manifest rom/manifest.txt
+          cp -a openwrt/bin/targets/rockchip/*/config.buildinfo rom/config.buildinfo
+          cd rom && sha256sum *gz > ../rom/sha256sums.txt
         elif [ "${{ github.event.inputs.device }}" = "x86_64" ]; then
           cp -a openwrt/bin/targets/x86/*/*-ext4-combined-efi.img.gz rom/
           cp -a openwrt/bin/targets/x86/*/*-squashfs-combined-efi.img.gz rom/
